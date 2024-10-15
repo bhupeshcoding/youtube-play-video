@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Play YouTube Video</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Play YouTube Video</h1>
+
+      <input
+        type="text"
+        id="videoURL"
+        placeholder="Enter YouTube video URL"
+        size="50"
+      />
+      <button onclick="playVideo()">Play</button>
+
+      <div id="player"></div>
+    </div>
+
+    <script>
+      // Function to extract the video ID from a YouTube URL
+      function getVideoId(url) {
+        const regExp =
+          /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        return match && match[7].length == 11 ? match[7] : false;
+      }
+
+      function playVideo() {
+        var url = document.getElementById("videoURL").value;
+        var videoId = getVideoId(url);
+
+        if (videoId) {
+          // Create an iframe element
+          var iframe = document.createElement("iframe");
+          iframe.width = "560";
+          iframe.height = "315";
+          iframe.src = "https://www.youtube.com/embed/" + videoId;
+          iframe.frameborder = "0";
+          iframe.allow = "autoplay; encrypted-media";
+          iframe.allowfullscreen = true;
+
+          // Replace the content of the player div with the iframe
+          document.getElementById("player").innerHTML = "";
+          document.getElementById("player").appendChild(iframe);
+        } else {
+          alert("Invalid YouTube URL");
+        }
+      }
+    </script>
+  </body>
+</html>
